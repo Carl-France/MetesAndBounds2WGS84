@@ -54,8 +54,30 @@ def met2cor(lat, lon, heading, distance):
 	
 	return SPSCtoWGS84(p2_northing, p2_easting)
 
-coords = [30.485086, -90.927388]
-print(coords)
-headingchecker('N001417W')
-print(met2cor(coords[0], coords[1], 'N001417W', 201.3))
 
+
+with open('points.csv', 'r') as csv_file:
+	csv_reader = csv.reader(csv_file)
+	row = list(csv_reader)  
+
+	coords = []
+	lat = row[1][3]
+	lon = row[1][4]
+	for i in range(len(row)-2):
+		coords.append(met2cor(lat, lon, row[i + 2][1], float(row[i + 2][2])))
+		lat = coords[i-1][0]
+		lon = coords[i-1][1]
+	print(coords)	
+
+
+	with open('newpoints.csv', 'w', newline='') as csvfile:
+		writer = csv.writer(csvfile, delimiter = ',')
+		writer.writerow(row[0])
+		writer.writerow(row[1])
+		writer.writerow(coords)
+
+
+
+	#	for i in coords
+	#		writer.writerow(coord)
+			
