@@ -1,3 +1,4 @@
+import csv
 import numpy as np
 from pyproj import Transformer
 
@@ -23,22 +24,38 @@ def SPSCtoWGS84 (north, east):
 	lon = latlong[0]
 	return [lat, lon]
 
+def headingchecker(heading):
+	if heading[0].upper() != 'N' and heading[0].upper() != 'S':
+		print('Syntax error! Make sure you have a "N" or "S" as the first character of your heading.')
+	
+	if heading[len(heading) - 1].upper() != 'E' and heading[len(heading) - 1].upper() != 'W':
+		print('Syntax error! Make sure you have a "E" or "W" as the last character of your heading.')
+	
+	if len(heading) != 8:
+		print('Syntax error! Your heading is the wrong length.')
+
+
 def met2cor(lat, lon, heading, distance):
 	angle = bearing2rad(heading)
 
-	SPSC = WGS84toSPCS(lat, lon)
-	p1_northing = SPSC[0]
-	p1_easting = SPSC[1]
-	
-	p2_northing = p1_northing + (distance * np.cos(angle))
-	p2_easting = p1_easting + (distance * np.sin(angle))
+	p1_cartesian = WGS84toSPCS(lat, lon)
 
+	delta_north = distance * np.cos(angle)
+	delta_east = distance * np.sin(angle)
+
+	if heading[0].upper() == 'S':
+		delta_north = -delta_north
+
+	if heading[len(heading) - 1].upper() == 'W':
+		delta_east = -delta_east
+
+	p2_northing = p1_cartesian[0] + delta_north
+	p2_easting = p1_cartesian[1] + delta_east
+	
 	return SPSCtoWGS84(p2_northing, p2_easting)
 
 coords = [30.485086, -90.927388]
 print(coords)
+headingchecker('N001417W')
 print(met2cor(coords[0], coords[1], 'N001417W', 201.3))
-
-
-#met2cor('30.485086, -90.927388', 'N001417W', '201.3')
 
