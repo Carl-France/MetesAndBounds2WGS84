@@ -43,7 +43,7 @@ def createkml(coords):
 	kml.save("newpoints.kml")
 			
 
-
+#meet and bound stepper
 def met2cor(lat, lon, heading, distance):
 	angle = bearing2rad(heading)
 
@@ -63,28 +63,33 @@ def met2cor(lat, lon, heading, distance):
 	
 	return SPSCtoWGS84(p2_northing, p2_easting)
 
+def loadmandb():
+	with open('points.csv', 'r') as csv_file:
+		csv_reader = csv.reader(csv_file)
+		mandb = list(csv_reader)
+		return mandb
+
+def exportWGS84(coords):
+	with open('newpoints.csv', 'w', newline='') as csvfile:
+		writer = csv.writer(csvfile, delimiter = ',')
+		writer.writerow(mandb[0])
+		writer.writerow(mandb[1])	
+		for i in range(len(coords)):
+			writer.writerow(coords[i])
 
 
-with open('points.csv', 'r') as csv_file:
-	csv_reader = csv.reader(csv_file)
-	row = list(csv_reader)
 
-	lat = float(row[1][3])
-	lon = float(row[1][4])
-	coords = [(lat, lon)]
-	
-	for i in range(len(row)-2):
-		coords.append(met2cor(lat, lon, row[i + 2][1], float(row[i + 2][2])))
-		lat = coords[i-1][0]
-		lon = coords[i-1][1]
 
-with open('newpoints.csv', 'w', newline='') as csvfile:
-	writer = csv.writer(csvfile, delimiter = ',')
-#	writer.writerow(row[0])
-#	writer.writerow(row[1])
-	
-	for i in range(len(coords)):
-		writer.writerow(coords[i])
+mandb = loadmandb()
 
-print(coords)			
+lat = float(mandb[1][3])
+lon = float(mandb[1][4])
+coords = [(lat, lon)]
+
+for i in range(len(mandb)-2):
+	coords.append(met2cor(lat, lon, mandb[i + 2][1], float(mandb[i + 2][2])))
+	lat = coords[i-1][0]
+	lon = coords[i-1][1]
+
+exportWGS84(coords)
 createkml(coords)
