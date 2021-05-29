@@ -1,5 +1,6 @@
 import csv
 import numpy as np
+import simplekml
 from pyproj import Transformer
 
 def bearing2rad(heading):
@@ -22,7 +23,7 @@ def SPSCtoWGS84 (north, east):
 	latlong = transformer.transform(east, north)
 	lat = latlong[1]
 	lon = latlong[0]
-	return [lat, lon]
+	return (lat, lon)
 
 def headingchecker(heading):
 	if heading[0].upper() != 'N' and heading[0].upper() != 'S':
@@ -33,6 +34,14 @@ def headingchecker(heading):
 	
 	if len(heading) != 8:
 		print('Syntax error! Your heading is the wrong length.')
+
+def createkml(coords):
+	kml = simplekml.Kml()
+	for lat, lon in coords:
+	    pnt = kml.newpoint()
+	    pnt.coords = [(lon, lat)]
+	kml.save("newpoints.kml")
+			
 
 
 def met2cor(lat, lon, heading, distance):
@@ -58,26 +67,24 @@ def met2cor(lat, lon, heading, distance):
 
 with open('points.csv', 'r') as csv_file:
 	csv_reader = csv.reader(csv_file)
-	row = list(csv_reader)  
+	row = list(csv_reader)
 
-	coords = []
-	lat = row[1][3]
-	lon = row[1][4]
+	lat = float(row[1][3])
+	lon = float(row[1][4])
+	coords = [(lat, lon)]
+	
 	for i in range(len(row)-2):
 		coords.append(met2cor(lat, lon, row[i + 2][1], float(row[i + 2][2])))
 		lat = coords[i-1][0]
 		lon = coords[i-1][1]
-	print(coords)	
 
+with open('newpoints.csv', 'w', newline='') as csvfile:
+	writer = csv.writer(csvfile, delimiter = ',')
+#	writer.writerow(row[0])
+#	writer.writerow(row[1])
+	
+	for i in range(len(coords)):
+		writer.writerow(coords[i])
 
-	with open('newpoints.csv', 'w', newline='') as csvfile:
-		writer = csv.writer(csvfile, delimiter = ',')
-		writer.writerow(row[0])
-		writer.writerow(row[1])
-		writer.writerow(coords)
-
-
-
-	#	for i in coords
-	#		writer.writerow(coord)
-			
+print(coords)			
+createkml(coords)
