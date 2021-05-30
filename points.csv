@@ -1,6 +1,5 @@
-,Heading,Distance,WGS84latitude,WGS84longitude
-POB,,,30.485086,-90.927388
-Point 2,N001417W,70,,
-Point 3,N001417W,25.65,,
-Point 4,N001417W,30.04,,
-Point 5,N001417W,75.61,,
+Name,Heading,Distance,WGS84latitude,WGS84longitude
+POB,N001417W,70,30.485086,-90.927388
+Point 2,N001417W,25.65,,
+Point 3,N001417W,30.04,,
+Point 4,N001417W,75.61,,

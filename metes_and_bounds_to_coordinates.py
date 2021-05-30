@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import simplekml
 from pyproj import Transformer
+import pprint
 
 def bearing2rad(heading):
 	deg = int(str(heading[1]) + str(heading[2]))
@@ -63,31 +64,31 @@ def met2cor(lat, lon, heading, distance):
 	
 	return SPSCtoWGS84(p2_northing, p2_easting)
 
-def loadmandb():
+def loadmeetsandbounds():
 	with open('points.csv', 'r') as csv_file:
-		csv_reader = csv.reader(csv_file)
-		mandb = list(csv_reader)
-		return mandb
+		csv_reader = csv.DictReader(csv_file)
+		mab = list(csv_reader)
+		return mab
 
 def exportWGS84(coords):
 	with open('newpoints.csv', 'w', newline='') as csvfile:
 		writer = csv.writer(csvfile, delimiter = ',')
-		writer.writerow(mandb[0])
-		writer.writerow(mandb[1])	
+		writer.writerow(mab[0])
 		for i in range(len(coords)):
 			writer.writerow(coords[i])
 
 
 
 
-mandb = loadmandb()
+mab = loadmeetsandbounds()
+pprint.pprint(mab)
 
-lat = float(mandb[1][3])
-lon = float(mandb[1][4])
+lat = float(mab[1][3])
+lon = float(mab[1][4])
 coords = [(lat, lon)]
 
-for i in range(len(mandb)-2):
-	coords.append(met2cor(lat, lon, mandb[i + 2][1], float(mandb[i + 2][2])))
+for i in range(len(mab)-2):
+	coords.append(met2cor(lat, lon, mab[i + 2][1], float(mab[i + 2][2])))
 	lat = coords[i-1][0]
 	lon = coords[i-1][1]
 
