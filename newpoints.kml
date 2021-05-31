@@ -121,6 +121,16 @@
                 </Icon>
             </IconStyle>
         </Style>
+        <Style id="64">
+            <IconStyle id="65">
+                <colorMode>normal</colorMode>
+                <scale>1</scale>
+                <heading>0</heading>
+                <Icon id="66">
+                    <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+                </Icon>
+            </IconStyle>
+        </Style>
         <Placemark id="3">
             <name>POB</name>
             <styleUrl>#4</styleUrl>
@@ -203,6 +213,13 @@
             <styleUrl>#59</styleUrl>
             <Point id="57">
                 <coordinates>-90.92698793861176,30.485090200687733,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="63">
+            <name>EOB</name>
+            <styleUrl>#64</styleUrl>
+            <Point id="62">
+                <coordinates>-90.92738798238376,30.48508599627022,0.0</coordinates>
             </Point>
         </Placemark>
     </Document>

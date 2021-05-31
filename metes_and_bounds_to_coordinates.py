@@ -42,6 +42,8 @@ def createkml(points):
 		pnt = kml.newpoint(name = points[i]['Name'], coords = [(points[i]['WGS84longitude'], points[i]['WGS84latitude'])])
 		pnt.style.iconstyle.icon.href = 'http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png'
 	kml.save("newpoints.kml")
+	print('KML exported succesfully.')
+
 
 def met2cor(lat, lon, heading, distance):
 	angle = bearing2rad(heading)
@@ -75,15 +77,16 @@ def exportWGS84(listofdicts):
 		writer.writeheader()
 		for i in range(len(listofdicts)):
 			writer.writerow(listofdicts[i])
+		print('CSV exported succesfully.')
 
 def errordist():
 	POB = WGS84toSPCS(points[0]['WGS84latitude'], points[0]['WGS84longitude'])
 	END = WGS84toSPCS(points[len(points) - 1]['WGS84latitude'], points[len(points) - 1]['WGS84longitude'])
-	north_err = (END[0] - POB[0]) / 12
-	east_err = (END[1] - POB[1]) / 12
+	north_err = (END[0] - POB[0]) * 12
+	east_err = (END[1] - POB[1]) * 12
 	total_error = np.sqrt(north_err**2 + east_err**2)
-	print('Calculation complete. Closed-loop descrepancy of ' + str(round(north_err)) + ' inches north and ' + str(round(east_err)) + ' inches east.')
-	print('Total error is: ' + str(round(total_error / 12)) + ' inches.')
+	print('Closed-loop descrepancy of ' + str('{0:.2g}'.format(north_err)) + ' inches north and ' + str('{0:.2g}'.format(east_err)) + ' inches east.')
+	print('Total error is: ' + str('{0:.2g}'.format(total_error)) + ' inches.')
 
 
 
@@ -98,6 +101,12 @@ for i in range(len(points) - 1):
 	points[i + 1]['WGS84latitude'] = coords[0]
 	points[i + 1]['WGS84longitude'] = coords[1]
 	print(coords)
+
+
+EOB = met2cor(points[len(points)-1]['WGS84latitude'], points[len(points)-1]['WGS84longitude'], points[len(points)-1]['Heading'], float(points[len(points)-1]['Distance']))
+points.append({'WGS84latitude': EOB[0], 'WGS84longitude': EOB[1], 'Name': 'EOB'})
+
+
 
 #pprint.pprint(points)
 
