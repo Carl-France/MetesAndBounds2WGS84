@@ -1,24 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
     <Document id="1">
+        <Style id="4">
+            <IconStyle id="5">
+                <colorMode>normal</colorMode>
+                <scale>1</scale>
+                <heading>0</heading>
+                <Icon id="6">
+                    <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+                </Icon>
+            </IconStyle>
+        </Style>
+        <Style id="9">
+            <IconStyle id="10">
+                <colorMode>normal</colorMode>
+                <scale>1</scale>
+                <heading>0</heading>
+                <Icon id="11">
+                    <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+                </Icon>
+            </IconStyle>
+        </Style>
+        <Style id="14">
+            <IconStyle id="15">
+                <colorMode>normal</colorMode>
+                <scale>1</scale>
+                <heading>0</heading>
+                <Icon id="16">
+                    <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+                </Icon>
+            </IconStyle>
+        </Style>
+        <Style id="19">
+            <IconStyle id="20">
+                <colorMode>normal</colorMode>
+                <scale>1</scale>
+                <heading>0</heading>
+                <Icon id="21">
+                    <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+                </Icon>
+            </IconStyle>
+        </Style>
         <Placemark id="3">
+            <name>POB</name>
+            <styleUrl>#4</styleUrl>
             <Point id="2">
                 <coordinates>-90.927388,30.485086,0.0</coordinates>
             </Point>
         </Placemark>
-        <Placemark id="5">
-            <Point id="4">
-                <coordinates>-90.9273880498536,30.48515652489548,0.0</coordinates>
+        <Placemark id="8">
+            <name>Point 2</name>
+            <styleUrl>#9</styleUrl>
+            <Point id="7">
+                <coordinates>-90.9273881360529,30.485278465599087,0.0</coordinates>
             </Point>
         </Placemark>
-        <Placemark id="7">
-            <Point id="6">
-                <coordinates>-90.92738810823975,30.485239120131894,0.0</coordinates>
+        <Placemark id="13">
+            <name>Point 3</name>
+            <styleUrl>#14</styleUrl>
+            <Point id="12">
+                <coordinates>-90.9273881859067,30.48534899049049,0.0</coordinates>
             </Point>
         </Placemark>
-        <Placemark id="9">
-            <Point id="8">
-                <coordinates>-90.92738814695659,30.485293890341666,0.0</coordinates>
+        <Placemark id="18">
+            <name>Point 4</name>
+            <styleUrl>#19</styleUrl>
+            <Point id="17">
+                <coordinates>-90.92738824429307,30.485431585722107,0.0</coordinates>
             </Point>
         </Placemark>
     </Document>

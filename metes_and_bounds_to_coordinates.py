@@ -36,11 +36,11 @@ def headingchecker(heading):
 	if len(heading) != 8:
 		print('Syntax error! Your heading is the wrong length.')
 
-def createkml(coords):
+def createkml(points):
 	kml = simplekml.Kml()
-	for lat, lon in coords:
-	    pnt = kml.newpoint()
-	    pnt.coords = [(lon, lat)]
+	for i in range(len(points)):
+		pnt = kml.newpoint(name = points[i]['Name'], coords = [(points[i]['WGS84longitude'], points[i]['WGS84latitude'])])
+		pnt.style.iconstyle.icon.href = 'http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png'
 	kml.save("newpoints.kml")
 			
 
@@ -85,8 +85,8 @@ for i in range(len(points) - 1):
 	points[i + 1]['WGS84latitude'] = coords[0]
 	points[i + 1]['WGS84longitude'] = coords[1]
 
-pprint.pprint(points)
+#pprint.pprint(points)
 
 
 exportWGS84(points)
-#createkml(points)
+createkml(points)
