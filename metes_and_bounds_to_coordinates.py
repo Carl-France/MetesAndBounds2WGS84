@@ -44,7 +44,7 @@ def createkml(coords):
 	kml.save("newpoints.kml")
 			
 
-#meet and bound stepper
+#meet and bound traverser
 def met2cor(lat, lon, heading, distance):
 	angle = bearing2rad(heading)
 
@@ -81,16 +81,15 @@ def exportWGS84(coords):
 
 
 mab = loadmeetsandbounds()
+#pprint.pprint(mab)
+
+for i in range(len(mab) - 1):
+	coords = (met2cor(mab[i]['WGS84latitude'], mab[i]['WGS84longitude'], mab[i]['Heading'], float(mab[i]['Distance'])))
+	mab[i + 1]['WGS84latitude'] = coords[0]
+	mab[i + 1]['WGS84longitude'] = coords[1]
+
 pprint.pprint(mab)
 
-lat = float(mab[1][3])
-lon = float(mab[1][4])
-coords = [(lat, lon)]
 
-for i in range(len(mab)-2):
-	coords.append(met2cor(lat, lon, mab[i + 2][1], float(mab[i + 2][2])))
-	lat = coords[i-1][0]
-	lon = coords[i-1][1]
-
-exportWGS84(coords)
-createkml(coords)
+#exportWGS84(coords)
+#createkml(coords)
