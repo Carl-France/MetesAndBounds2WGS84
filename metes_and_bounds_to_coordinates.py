@@ -64,32 +64,29 @@ def met2cor(lat, lon, heading, distance):
 	
 	return SPSCtoWGS84(p2_northing, p2_easting)
 
-def loadmeetsandbounds():
-	with open('points.csv', 'r') as csv_file:
+def loadmeetsandbounds(filename):
+	with open(filename, 'r') as csv_file:
 		csv_reader = csv.DictReader(csv_file)
-		mab = list(csv_reader)
-		return mab
+		points = list(csv_reader)
+		return points
 
-def exportWGS84(coords):
+def exportWGS84(listofdicts):
 	with open('newpoints.csv', 'w', newline='') as csvfile:
-		writer = csv.writer(csvfile, delimiter = ',')
-		writer.writerow(mab[0])
-		for i in range(len(coords)):
-			writer.writerow(coords[i])
+		fieldnames = listofdicts[0].keys()
+		writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+		writer.writeheader()
+		for i in range(len(listofdicts)):
+			writer.writerow(listofdicts[i])
+
+points = loadmeetsandbounds('points.csv')
+
+for i in range(len(points) - 1):
+	coords = (met2cor(points[i]['WGS84latitude'], points[i]['WGS84longitude'], points[i]['Heading'], float(points[i]['Distance'])))
+	points[i + 1]['WGS84latitude'] = coords[0]
+	points[i + 1]['WGS84longitude'] = coords[1]
+
+pprint.pprint(points)
 
 
-
-
-mab = loadmeetsandbounds()
-#pprint.pprint(mab)
-
-for i in range(len(mab) - 1):
-	coords = (met2cor(mab[i]['WGS84latitude'], mab[i]['WGS84longitude'], mab[i]['Heading'], float(mab[i]['Distance'])))
-	mab[i + 1]['WGS84latitude'] = coords[0]
-	mab[i + 1]['WGS84longitude'] = coords[1]
-
-pprint.pprint(mab)
-
-
-#exportWGS84(coords)
-#createkml(coords)
+exportWGS84(points)
+#createkml(points)
